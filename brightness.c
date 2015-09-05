@@ -56,10 +56,10 @@ int main(int argc, char* argv[]) {
 
     if (brightness < 0) brightness = 0;
     else if (brightness > max_brightness) brightness = max_brightness;
-    printf("current brightness: %d\n", current_brightness);
-    printf("brightness: %d\n", brightness);
+    double percent = 100.0 * brightness / max_brightness;
 
     set_brightness(backend, "brightness", brightness);
 
+    printf("%.0f%%\n", percent);
     return 0;
 }
