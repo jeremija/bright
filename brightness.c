@@ -48,23 +48,18 @@ int main(int argc, char* argv[]) {
         backend = DEFAULT_BACKEND;
     }
 
-    int increment = atoi(argv[1]);
-
     int current_brightness = get_brightness(backend, "brightness");
     int max_brightness = get_brightness(backend, "max_brightness");
 
-    int current_percent = 100 * current_brightness / max_brightness;
+    double increment = atof(argv[1]) / 100 * max_brightness;
+    int brightness = current_brightness + increment;
 
-    int next_percent = current_percent + increment;
-    if (next_percent < 0) next_percent = 0;
-    else if (next_percent > 100) next_percent = 100;
-
-    int next_brightness = next_percent * max_brightness / 100;
-
+    if (brightness < 0) brightness = 0;
+    else if (brightness > max_brightness) brightness = max_brightness;
     printf("current brightness: %d\n", current_brightness);
-    printf("next brightness: %d\n", next_brightness);
+    printf("brightness: %d\n", brightness);
 
-    set_brightness(backend, "brightness", next_brightness);
+    set_brightness(backend, "brightness", brightness);
 
     return 0;
 }
