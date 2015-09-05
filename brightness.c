@@ -1,11 +1,16 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
-char* BRIGHTNESS = "/sys/class/backlight/intel_backlight/brightness";
-char* MAX_BRIGHTNESS = "/sys/class/backlight/intel_backlight/max_brightness";
+char* ENV_BRIGHTNESS_BACKEND = "BRIGHTNESS_BACKEND";
+char* BACKLIGHT_PATH = "/sys/class/backlight";
+char* DEFAULT_BACKEND = "intel_backlight";
 
+int get_brightness(char* backend, char* file) {
+    size_t len = strlen(BACKLIGHT_PATH) + 1 + strlen(backend) + 1 + strlen(file);
+    char filename[len];
+    sprintf(filename, "%s/%s/%s", BACKLIGHT_PATH, backend, file);
 
-int get_brightness(char* filename) {
     FILE *fp = fopen(filename, "r");
     if (fp == NULL) {
         fprintf(stderr, "Can't read brightness from file: %s\n", filename);
@@ -18,10 +23,14 @@ int get_brightness(char* filename) {
     return brightness;
 }
 
-void set_brightness(int brightness) {
-    FILE *fp = fopen(BRIGHTNESS, "w");
+void set_brightness(char* backend, char* file, int brightness) {
+    size_t len = strlen(BACKLIGHT_PATH) + 1 + strlen(backend) + 1 + strlen(file);
+    char filename[len];
+    sprintf(filename, "%s/%s/%s", BACKLIGHT_PATH, backend, file);
+
+    FILE *fp = fopen(filename, "w");
     if (fp == NULL) {
-        fprintf(stderr, "Cannot write brightness to file: %s\n", BRIGHTNESS);
+        fprintf(stderr, "Cannot write brightness to file: %s\n", filename);
         exit(1);
     }
     fprintf(fp, "%d", brightness);
@@ -29,17 +38,20 @@ void set_brightness(int brightness) {
 }
 
 int main(int argc, char* argv[]) {
-    printf("arg0: %s\n", argv[0]);
-
     if (argc < 2) {
         fprintf(stderr, "Expected an argument specifying an increment");
         exit(1);
     }
 
+    char* backend = getenv(ENV_BRIGHTNESS_BACKEND);
+    if (!backend) {
+        backend = DEFAULT_BACKEND;
+    }
+
     int increment = atoi(argv[1]);
 
-    int current_brightness = get_brightness(BRIGHTNESS);
-    int max_brightness = get_brightness(MAX_BRIGHTNESS);
+    int current_brightness = get_brightness(backend, "brightness");
+    int max_brightness = get_brightness(backend, "max_brightness");
 
     int current_percent = 100 * current_brightness / max_brightness;
 
@@ -52,7 +64,7 @@ int main(int argc, char* argv[]) {
     printf("current brightness: %d\n", current_brightness);
     printf("next brightness: %d\n", next_brightness);
 
-    set_brightness(next_brightness);
+    set_brightness(backend, "brightness", next_brightness);
 
     return 0;
 }

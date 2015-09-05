@@ -9,15 +9,15 @@ necessary.
 # Installation
 
 ```bash
+# clone the repository
 git clone https://github.com/jeremija/brightness
 cd brightness
 
+# build
 make
 
-sudo cp brightness /usr/local/bin
-
-# add sticky UID to make it run without root
-sudo chmod u+s /usr/local/bin/brightness
+# to install binary in /usr/local/bin
+sudo make install
 ```
 
 # Usage
@@ -28,6 +28,11 @@ brightness [-|+]<percentage>
 # example to decrease brightness for 10%:
 brightness -10
 ```
+
+The default brightness backend is set to `intel_backlight`. The
+`BRIGHTNESS_BACKEND` environment variable can be used to override the default
+setting. Check the `/sys/class/backlight` directory to find which backend to
+use.
 
 # License
 
