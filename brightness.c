@@ -28,7 +28,7 @@ void set_brightness(char* backend, char* file, int brightness) {
     char filename[len];
     sprintf(filename, "%s/%s/%s", BACKLIGHT_PATH, backend, file);
 
-    FILE *fp = fopen(filename, "w");
+    FILE *fp = fopen(filename, "a");
     if (fp == NULL) {
         fprintf(stderr, "Cannot write brightness to file: %s\n", filename);
         exit(1);
@@ -51,8 +51,16 @@ int main(int argc, char* argv[]) {
     int current_brightness = get_brightness(backend, "brightness");
     int max_brightness = get_brightness(backend, "max_brightness");
 
-    double increment = atof(argv[1]) / 100 * max_brightness;
-    int brightness = current_brightness + increment + 0.5;
+    char c = argv[1][0];
+    int brightness;
+    if (c == '+' || c == '-') {
+        double increment = atof(argv[1]) / 100 * max_brightness;
+        brightness = current_brightness + increment + 0.5;
+    }
+    else {
+        brightness = atof(argv[1]) / 100 * max_brightness + 0.5;
+    }
+
 
     if (brightness < 0) brightness = 0;
     else if (brightness > max_brightness) brightness = max_brightness;

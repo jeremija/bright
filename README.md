@@ -25,8 +25,14 @@ sudo make install
 ```bash
 brightness [-|+]<percentage>
 
-# example to decrease brightness for 10%:
+# decrease brightness by 10%:
 brightness -10
+
+# increase brightness by 10%:
+brightness +10
+
+# set brightness to 70%:
+brightness 70
 ```
 
 The default brightness backend is set to `intel_backlight`. The
