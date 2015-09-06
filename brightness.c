@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
     int max_brightness = get_brightness(backend, "max_brightness");
 
     double increment = atof(argv[1]) / 100 * max_brightness;
-    int brightness = current_brightness + increment;
+    int brightness = current_brightness + increment + 0.5;
 
     if (brightness < 0) brightness = 0;
     else if (brightness > max_brightness) brightness = max_brightness;
