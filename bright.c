@@ -53,15 +53,9 @@ int main(int argc, char* argv[]) {
     int max_brightness = get_brightness(backend, "max_brightness");
 
     char c = argv[1][0];
-    int brightness;
-    if (c == '+' || c == '-') {
-        double increment = atof(argv[1]) / 100 * max_brightness;
-        brightness = current_brightness + increment + 0.5;
-    }
-    else {
-        brightness = atof(argv[1]) / 100 * max_brightness + 0.5;
-    }
-
+    double increment = atof(argv[1]) / 100 * max_brightness + 0.5;
+    int brightness = c == '+' || c == '-' ?
+        current_brightness + increment : increment;
 
     if (brightness < 0) brightness = 0;
     else if (brightness > max_brightness) brightness = max_brightness;
