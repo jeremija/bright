@@ -1,7 +1,7 @@
-# Brightness switcher for ThinkPad X230
+# Adjust brightness for ThinkPad X230
 
 Helps set the brightness outside X server for ThinkPad X230. Probably works
-with other laptops with Intel graphics cards.
+with other laptops making use of `/sys/class/backlight`.
 
 The idea was to create a binary which will have a sticky UID so no root is
 necessary.
@@ -10,8 +10,8 @@ necessary.
 
 ```bash
 # clone the repository
-git clone https://github.com/jeremija/brightness
-cd brightness
+git clone https://github.com/jeremija/bright
+cd bright
 
 # build
 make
@@ -23,20 +23,20 @@ sudo make install
 # Usage
 
 ```bash
-brightness [-|+]<percentage>
+bright [-|+]<percentage>
 
 # decrease brightness by 10%:
-brightness -10
+bright -10
 
 # increase brightness by 10%:
-brightness +10
+bright +10
 
 # set brightness to 70%:
-brightness 70
+bright 70
 ```
 
 The default brightness backend is set to `intel_backlight`. The
-`BRIGHTNESS_BACKEND` environment variable can be used to override the default
+`BRIGHT_BACKEND` environment variable can be used to override the default
 setting. Check the `/sys/class/backlight` directory to find which backend to
 use.
 

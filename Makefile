@@ -2,17 +2,17 @@ PREFIX=/usr/local
 
 .PHONY: all
 all:
-	gcc brightness.c -o brightness
+	gcc bright.c -o bright
 
 .PHONY: clean
 clean:
-	rm -f brightness
+	rm -f bright
 
 .PHONY: install
 install:
-	cp brightness $(PREFIX)/bin/brightness
-	chmod 4755 $(PREFIX)/bin/brightness
+	cp bright $(PREFIX)/bin/bright
+	chmod 4755 $(PREFIX)/bin/bright
 
 .PHONY: uninstall
 uninstall:
-	rm $(PREFIX)/bin/brightness
+	rm $(PREFIX)/bin/bright

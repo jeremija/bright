@@ -1,8 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
-char* ENV_BRIGHTNESS_BACKEND = "BRIGHTNESS_BACKEND";
+char* ENV_BRIGHTNESS_BACKEND = "BRIGHT_BACKEND";
 char* BACKLIGHT_PATH = "/sys/class/backlight";
 char* DEFAULT_BACKEND = "intel_backlight";
 
@@ -39,7 +40,7 @@ void set_brightness(char* backend, char* file, int brightness) {
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        fprintf(stderr, "Expected an argument specifying an increment");
+        fprintf(stderr, "Expected an argument specifying an increment\n");
         exit(1);
     }
 
